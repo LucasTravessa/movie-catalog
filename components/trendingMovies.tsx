@@ -10,7 +10,7 @@ type props = {
 
 export function TrendingMovies({ data }: props) {
   const navigation = useNavigation();
-  const handleClick = () => {
+  const handleClick = (item: any) => {
     navigation.navigate('Movie', item);
   };
   return (
@@ -36,7 +36,9 @@ type cardProps = {
 
 const MovieCard = ({ item, handleClick }: cardProps) => {
   return (
-    <TouchableWithoutFeedback className="rounded-lg bg-neutral-800 p-4" onPress={handleClick}>
+    <TouchableWithoutFeedback
+      className="rounded-lg bg-neutral-800 p-4"
+      onPress={() => handleClick(item)}>
       <Text className="text-white">aaa</Text>
     </TouchableWithoutFeedback>
   );

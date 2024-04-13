@@ -1,4 +1,5 @@
-import MovieList from 'components/movieList';
+import { useNavigation } from '@react-navigation/native';
+import { MovieList } from 'components/movieList';
 import { TrendingMovies } from 'components/trendingMovies';
 import { ios } from 'constants/constants';
 import { StatusBar } from 'expo-status-bar';
@@ -9,6 +10,8 @@ import { Bars3CenterLeftIcon, MagnifyingGlassIcon } from 'react-native-heroicons
 import { styles } from 'theme';
 
 export function HomeScreen() {
+  const navigation = useNavigation();
+
   const [trending, setTrending] = useState([1, 2, 3]);
   const [upcoming, setUpcoming] = useState([1, 2, 3]);
   const [topRated, setTopRated] = useState([1, 2, 3]);
@@ -23,7 +26,7 @@ export function HomeScreen() {
           <Text className="text-3xl font-bold text-white">
             <Text style={styles.text}>M</Text>ovies
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Search')}>
             <MagnifyingGlassIcon size="30" strokeWidth={2} color="white" />
           </TouchableOpacity>
         </View>
@@ -34,7 +37,7 @@ export function HomeScreen() {
         <TrendingMovies data={trending} />
         <MovieList title="Upcoming" data={upcoming} />
         <MovieList title="Top Rated" data={topRated} />
-        <MovieList title="Popular" data={topRated} />
+        <MovieList title="Popular" data={popular} />
       </ScrollView>
     </View>
   );
