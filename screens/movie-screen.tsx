@@ -1,22 +1,27 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Cast from 'components/cast';
+import { Loading } from 'components/loading';
 import { MovieList } from 'components/movieList';
 import { height, ios, width } from 'constants/constants';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Movie } from 'models/movie';
+import { Person } from 'models/person';
 import { useEffect, useState } from 'react';
 import { View, Text, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 import { AcademicCapIcon, ChevronLeftIcon, HeartIcon } from 'react-native-heroicons/outline';
 import { theme } from 'theme';
 
-const topMargin = ios ? '' : ' mt-3';
+const topMargin = ios ? '' : ' mt-8 mt-3';
 
 export function MovieScreen() {
   const { params: item } = useRoute();
   const navigation = useNavigation();
 
+  const [loading, setLoading] = useState(true);
+
   const [isFavourite, toggleFavourite] = useState(false);
-  const [cast, setCast] = useState([1, 2, 3, 4, 5]);
-  const [similarMovies, setSimilarMovies] = useState();
+  const [cast, setCast] = useState<Person[]>([]);
+  const [similarMovies, setSimilarMovies] = useState<Movie[]>([]);
 
   useEffect(() => {
     //api call
@@ -34,17 +39,21 @@ export function MovieScreen() {
             <HeartIcon size="35" color={isFavourite ? theme.background : 'white'} />
           </TouchableOpacity>
         </SafeAreaView>
-        <View>
-          //imagem
-          <AcademicCapIcon />
-          <LinearGradient
-            colors={['transparent', 'rgb(23,23,23,0.8)', 'rgba(23,23,23,1)']}
-            style={{ width, height: height * 0.4 }}
-            start={{ x: 0.5, y: 0 }}
-            end={{ x: 0.5, y: 1 }}
-            className="absolute bottom-0"
-          />
-        </View>
+        {loading ? (
+          <Loading />
+        ) : (
+          <View>
+            //imagem
+            <AcademicCapIcon />
+            <LinearGradient
+              colors={['transparent', 'rgb(23,23,23,0.8)', 'rgba(23,23,23,1)']}
+              style={{ width, height: height * 0.4 }}
+              start={{ x: 0.5, y: 0 }}
+              end={{ x: 0.5, y: 1 }}
+              className="absolute bottom-0"
+            />
+          </View>
+        )}
       </View>
       <View style={{ marginTop: -(height * 0.09) }} className="space-y-3">
         <Text className="text-center text-3xl font-bold tracking-wider text-white">Movie Name</Text>

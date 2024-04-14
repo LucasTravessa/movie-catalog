@@ -1,16 +1,17 @@
 import { useNavigation } from '@react-navigation/native';
-import { width } from 'constants/constants';
-import { View, Text } from 'react-native';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { image500 } from 'api/tmdb';
+import { height, width } from 'constants/constants';
+import { Movie } from 'models/movie';
+import { View, Text, Image, TouchableWithoutFeedback } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 
 type props = {
-  data: any;
+  data: Movie[];
 };
 
 export function TrendingMovies({ data }: props) {
   const navigation = useNavigation();
-  const handleClick = (item: any) => {
+  const handleClick = (item: Movie) => {
     navigation.navigate('Movie', item);
   };
   return (
@@ -30,8 +31,8 @@ export function TrendingMovies({ data }: props) {
 }
 
 type cardProps = {
-  item: any;
-  handleClick: any;
+  item: Movie;
+  handleClick: (item: Movie) => void;
 };
 
 const MovieCard = ({ item, handleClick }: cardProps) => {
@@ -39,7 +40,11 @@ const MovieCard = ({ item, handleClick }: cardProps) => {
     <TouchableWithoutFeedback
       className="rounded-lg bg-neutral-800 p-4"
       onPress={() => handleClick(item)}>
-      <Text className="text-white">aaa</Text>
+      <Image
+        source={{ uri: image500(item.poster_path) }}
+        style={{ width: width * 0.6, height: height * 0.4 }}
+        className="rounded-3xl"
+      />
     </TouchableWithoutFeedback>
   );
 };
