@@ -36,7 +36,7 @@ export function MovieList({ title, data, hideSeeAll = false }: props) {
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 15 }}>
-        {data.map((item: Movie, index: number) => (
+        {data?.map((item: Movie, index: number) => (
           <TouchableWithoutFeedback key={index} onPress={() => navigation.push('Movie', item)}>
             <View className="mr-4 space-y-1">
               <Image

@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { Loading } from 'components/loading';
 import { ios } from 'constants/constants';
+import { Movie } from 'models/movie';
 import { useState } from 'react';
 import {
   View,
@@ -18,7 +19,7 @@ export default function SearchScreen() {
 
   const [loading, setLoading] = useState(true);
 
-  const [results, setResults] = useState([1, 2, 3, 45]);
+  const [results, setResults] = useState<Movie[]>([]);
 
   return (
     <SafeAreaView className={`flex-1 bg-neutral-800 ${!ios && 'pt-8'}`}>

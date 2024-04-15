@@ -1,19 +1,42 @@
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { image342, TmdbService } from 'api/tmdb';
 import { Loading } from 'components/loading';
 import { MovieList } from 'components/movieList';
-import { ios } from 'constants/constants';
-import { useState } from 'react';
-import { ScrollView, SafeAreaView, TouchableOpacity, View, Text } from 'react-native';
-import { AcademicCapIcon, ChevronLeftIcon, HeartIcon } from 'react-native-heroicons/outline';
+import { height, ios, width } from 'constants/constants';
+import { Movie } from 'models/movie';
+import { PersonDetails } from 'models/person-details';
+import { PersonMovieCredits } from 'models/person-movie-credits';
+import { useEffect, useState } from 'react';
+import { ScrollView, SafeAreaView, TouchableOpacity, View, Text, Image } from 'react-native';
+import { ChevronLeftIcon, HeartIcon } from 'react-native-heroicons/outline';
 
 const verticalMargin = ios ? '' : ' mt-8 my-3';
 export function PersonScreen() {
   const navigation = useNavigation();
 
+  const { params: item } = useRoute();
+
   const [loading, setLoading] = useState(true);
 
   const [isFavourite, toggleFavourite] = useState(false);
-  const [personMovies, setPersonMovies] = useState(false);
+
+  const [person, setPerson] = useState<PersonDetails>();
+  const [personMovies, setPersonMovies] = useState<PersonMovieCredits>();
+
+  useEffect(() => {
+    fetchData();
+    return () => {};
+  }, []);
+
+  async function fetchData() {
+    const id = Number(item.id) || 123;
+    const personDetails = await TmdbService.personDetailsByID(id);
+    if (personDetails) setPerson(personDetails);
+    const personMoviesCredits = await TmdbService.personMoviesByID(id);
+    if (personMoviesCredits) setPersonMovies(personMoviesCredits);
+
+    setLoading(false);
+  }
 
   return (
     <ScrollView className="flex-1 bg-neutral-900" contentContainerStyle={{ paddingBottom: 20 }}>
@@ -31,41 +54,52 @@ export function PersonScreen() {
         <Loading />
       ) : (
         <View>
-          <View className="flex-row justify-center">
-            <AcademicCapIcon />
+          <View
+            className="flex-row justify-center"
+            style={{
+              shadowColor: 'gray',
+              shadowRadius: 40,
+              shadowOffset: { width: 0, height: 5 },
+              shadowOpacity: 1,
+            }}>
+            <View className="boder-neutral-500 h-72 w-72 items-center overflow-hidden rounded-full">
+              <Image
+                source={{ uri: image342(person?.profile_path || '') }}
+                style={{ height: height * 0.43, width: width * 0.74 }}
+              />
+            </View>
           </View>
           <View className="mt-6">
-            <Text className="text-center text-3xl font-bold text-white">KeanuReeves</Text>
-            <Text className="text-center text-base text-neutral-500">London</Text>
+            <Text className="text-center text-3xl font-bold text-white">{person?.name}</Text>
+            <Text className="text-center text-base text-neutral-500">{person?.place_of_birth}</Text>
           </View>
           <View className="mx-3 mt-6 flex-row items-center justify-between rounded-full bg-neutral-700 p-4">
             <View className="items-center border-r-2 border-r-neutral-400 px-2">
               <Text className="font-semibold text-white">Gender</Text>
-              <Text className="text-sm text-neutral-300">Male</Text>
+              <Text className="text-sm text-neutral-300">
+                {person?.gender === 1 ? 'Female' : 'Male'}
+              </Text>
             </View>
             <View className="items-center border-r-2 border-r-neutral-400 px-2">
               <Text className="font-semibold text-white">Birthday</Text>
-              <Text className="text-sm text-neutral-300">Male</Text>
+              <Text className="text-sm text-neutral-300">{person?.birthday.toString()}</Text>
             </View>
             <View className="items-center border-r-2 border-r-neutral-400 px-2">
               <Text className="font-semibold text-white">Known for</Text>
-              <Text className="text-sm text-neutral-300">Male</Text>
+              <Text className="text-sm text-neutral-300">Lorem ipsum </Text>
+              {/* <Text className="text-sm text-neutral-300">{person?.known_for}</Text> */}
             </View>
             <View className="items-center px-2">
               <Text className="font-semibold text-white">Popularity</Text>
-              <Text className="text-sm text-neutral-300">Male</Text>
+              <Text className="text-sm text-neutral-300">{person?.popularity.toFixed(2)}%</Text>
             </View>
           </View>
           <View className="mx-4 my-6 space-y-2">
             <Text className="text-lg text-white">Biography</Text>
-            <Text className="tracking-wide text-neutral-400">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iure animi quas sint illo
-              non dolore inventore ad suscipit voluptates impedit. Quibusdam veritatis fugit quaerat
-              harum ut vitae delectus dicta odit.
-            </Text>
+            <Text className="tracking-wide text-neutral-400">{person?.biography}</Text>
           </View>
 
-          <MovieList title="Movies" data={personMovies} hideSeeAll />
+          {/* <MovieList title="Movies" data={personMovies} hideSeeAll /> */}
         </View>
       )}
     </ScrollView>

@@ -1,3 +1,5 @@
 1- imagem de fundo para quando não achar nenhum filme em search-screen.
 
 2- fallback image para filmes e pessoas.
+
+fallback movie poster, cast image
