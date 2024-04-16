@@ -6,6 +6,7 @@ import { TrendingMovies } from 'components/trendingMovies';
 import { ios } from 'constants/constants';
 import { StatusBar } from 'expo-status-bar';
 import { Movie } from 'models/movie';
+import { NavigationProps } from 'navigation';
 import { useEffect, useState } from 'react';
 import { SafeAreaView, Text, View } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
@@ -13,7 +14,7 @@ import { Bars3CenterLeftIcon, MagnifyingGlassIcon } from 'react-native-heroicons
 import { styles } from 'theme';
 
 export function HomeScreen() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProps>();
 
   const [loading, setLoading] = useState(true);
 

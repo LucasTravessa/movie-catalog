@@ -24,6 +24,8 @@ const similarMoviesEndPoint = (id: string) => `${baseUrl}/movie/${id}/similar`;
 const personDetailsEndPoint = (id: string) => `${baseUrl}/person/${id}`;
 const personMoviesEndPoint = (id: string) => `${baseUrl}/person/${id}/movie_credits`;
 
+const searchMoviesEndPoint = () => `${baseUrl}/search/movie`;
+
 async function apiCall(endpoint: string, params?: any) {
   const options: AxiosRequestConfig = {
     method: 'GET',
@@ -68,5 +70,8 @@ export class TmdbService {
   }
   static async personMoviesByID(id: number): Promise<PersonMovieCredits> {
     return await apiCall(personMoviesEndPoint(String(id)));
+  }
+  static async searchMovies(params: any): Promise<SearchResult<Movie>> {
+    return await apiCall(searchMoviesEndPoint(), params);
   }
 }

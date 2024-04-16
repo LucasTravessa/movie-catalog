@@ -1,15 +1,20 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer, RouteProp } from '@react-navigation/native';
+import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import { Movie } from 'models/movie';
+import { Cast } from 'models/movie-credits';
 import { HomeScreen } from 'screens/home-screen';
 import { MovieScreen } from 'screens/movie-screen';
 import { PersonScreen } from 'screens/person-screen';
 import SearchScreen from 'screens/search-screen';
 
+export type NavigationProps = StackNavigationProp<RootStackParamList>;
+
+export type RouteProps = RouteProp<RootStackParamList>;
+
 export type RootStackParamList = {
   Home: undefined;
-  Movie: { item: Movie };
-  Person: undefined;
+  Movie: Movie;
+  Person: Cast;
   Search: undefined;
 };
 

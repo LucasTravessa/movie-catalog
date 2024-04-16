@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { image185 } from 'api/tmdb';
 import { height, width } from 'constants/constants';
 import { Movie } from 'models/movie';
+import { NavigationProps } from 'navigation';
 import {
   View,
   Text,
@@ -19,7 +20,7 @@ type props = {
 };
 
 export function MovieList({ title, data, hideSeeAll = false }: props) {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProps>();
   return (
     <View className="mb-8 space-y-4">
       <View className="mx-4 flex-row items-center justify-between">

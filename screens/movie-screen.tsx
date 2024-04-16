@@ -8,17 +8,18 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Movie } from 'models/movie';
 import { Cast } from 'models/movie-credits';
 import { MovieDetails } from 'models/movie-details';
-import { Person } from 'models/person';
+// import { Person } from 'models/person';
+import { NavigationProps, RouteProps } from 'navigation';
 import { useEffect, useState } from 'react';
 import { View, Text, ScrollView, SafeAreaView, TouchableOpacity, Image } from 'react-native';
-import { AcademicCapIcon, ChevronLeftIcon, HeartIcon } from 'react-native-heroicons/outline';
+import { ChevronLeftIcon, HeartIcon } from 'react-native-heroicons/outline';
 import { theme } from 'theme';
 
 const topMargin = ios ? '' : ' mt-8 mt-3';
 
 export function MovieScreen() {
-  const { params: item } = useRoute();
-  const navigation = useNavigation();
+  const { params: item } = useRoute<RouteProps>();
+  const navigation = useNavigation<NavigationProps>();
 
   const [loading, setLoading] = useState(true);
 
@@ -35,7 +36,7 @@ export function MovieScreen() {
   }, [item]);
 
   async function fetchData() {
-    const id = Number(item.id) || 123;
+    const id = item?.id || 123;
     const movieDetails = await TmdbService.movieDetailsByID(id);
     if (movieDetails) setMovie(movieDetails);
     const movieCredits = await TmdbService.movieCreditsByID(id);
@@ -65,13 +66,13 @@ export function MovieScreen() {
               source={{ uri: image500(movie?.poster_path || '') }}
               style={{ height: height * 0.4, width }}
             />
-            {/* <LinearGradient
-              colors={['transparent', 'rgb(23,23,23,0.8)', 'rgba(23,23,23,1)']}
+            <LinearGradient
+              colors={['transparent', 'rgba(23,23,23,0.8)', 'rgba(23,23,23,1)']}
               style={{ width, height: height * 0.4 }}
               start={{ x: 0.5, y: 0 }}
               end={{ x: 0.5, y: 1 }}
               className="absolute bottom-0"
-            /> */}
+            />
           </View>
         )}
       </View>
@@ -89,12 +90,14 @@ export function MovieScreen() {
                 const showDot = i + 1 !== movie.genres.length;
                 return (
                   <Text key={i} className="text-center text-base font-semibold text-neutral-400">
-                    {gen.name} {showDot && '°'}
+                    {gen.name} {showDot && '° '}
                   </Text>
                 );
               })}
             </View>
-            <Text className="mx-4 tracking-wide text-neutral-400">{movie?.overview}</Text>
+            <Text className="mx-4 text-justify tracking-wide text-neutral-400">
+              {movie?.overview}
+            </Text>
           </View>
           <CastList navigation={navigation} cast={cast} />
           <MovieList title="Similar movies" data={similarMovies} hideSeeAll />

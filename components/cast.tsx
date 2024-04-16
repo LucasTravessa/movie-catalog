@@ -1,9 +1,10 @@
 import { image185 } from 'api/tmdb';
 import { Cast } from 'models/movie-credits';
+import { NavigationProps } from 'navigation';
 import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
 
 type props = {
-  navigation: any;
+  navigation: NavigationProps;
   cast: Cast[];
 };
 

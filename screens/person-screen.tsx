@@ -1,26 +1,29 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { image342, TmdbService } from 'api/tmdb';
 import { Loading } from 'components/loading';
-import { MovieList } from 'components/movieList';
+// import { MovieList } from 'components/movieList';
 import { height, ios, width } from 'constants/constants';
-import { Movie } from 'models/movie';
+// import { Movie } from 'models/movie';
 import { PersonDetails } from 'models/person-details';
 import { PersonMovieCredits } from 'models/person-movie-credits';
+import { NavigationProps, RouteProps } from 'navigation';
 import { useEffect, useState } from 'react';
 import { ScrollView, SafeAreaView, TouchableOpacity, View, Text, Image } from 'react-native';
 import { ChevronLeftIcon, HeartIcon } from 'react-native-heroicons/outline';
 
 const verticalMargin = ios ? '' : ' mt-8 my-3';
 export function PersonScreen() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProps>();
 
-  const { params: item } = useRoute();
+  const { params: item } = useRoute<RouteProps>();
 
   const [loading, setLoading] = useState(true);
 
   const [isFavourite, toggleFavourite] = useState(false);
 
   const [person, setPerson] = useState<PersonDetails>();
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [personMovies, setPersonMovies] = useState<PersonMovieCredits>();
 
   useEffect(() => {
@@ -29,7 +32,7 @@ export function PersonScreen() {
   }, []);
 
   async function fetchData() {
-    const id = Number(item.id) || 123;
+    const id = item?.id || 123;
     const personDetails = await TmdbService.personDetailsByID(id);
     if (personDetails) setPerson(personDetails);
     const personMoviesCredits = await TmdbService.personMoviesByID(id);

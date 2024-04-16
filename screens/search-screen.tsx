@@ -1,8 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
+import { image342, TmdbService } from 'api/tmdb';
 import { Loading } from 'components/loading';
-import { ios } from 'constants/constants';
+import { height, ios, width } from 'constants/constants';
+import { debounce } from 'lodash';
 import { Movie } from 'models/movie';
-import { useState } from 'react';
+import { NavigationProps } from 'navigation';
+import { useCallback, useState } from 'react';
 import {
   View,
   Text,
@@ -11,20 +14,38 @@ import {
   TouchableOpacity,
   ScrollView,
   TouchableWithoutFeedback,
+  Image,
 } from 'react-native';
-import { AcademicCapIcon, XMarkIcon } from 'react-native-heroicons/outline';
+import { XMarkIcon } from 'react-native-heroicons/outline';
 
 export default function SearchScreen() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProps>();
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [results, setResults] = useState<Movie[]>([]);
+
+  async function handleSearch(value: string) {
+    if (value.length > 2) {
+      setLoading(true);
+      const search = await TmdbService.searchMovies({
+        query: value,
+      });
+      setResults(search.results);
+      setLoading(false);
+      return;
+    }
+    setLoading(false);
+    setResults([]);
+  }
+
+  const handleTextDebounce = useCallback(debounce(handleSearch, 600), []);
 
   return (
     <SafeAreaView className={`flex-1 bg-neutral-800 ${!ios && 'pt-8'}`}>
       <View className="boder mx-4 mb-3 flex-row items-center justify-between rounded-full border-neutral-500">
         <TextInput
+          onChangeText={handleTextDebounce}
           placeholder="Search Movie"
           placeholderTextColor="lightgray"
           className="flex-1 pb-1 pl-6 text-base font-semibold tracking-wider text-white"
@@ -47,8 +68,11 @@ export default function SearchScreen() {
             {results.map((item, i) => (
               <TouchableWithoutFeedback key={i} onPress={() => navigation.navigate('Movie', item)}>
                 <View className="mb-4 space-y-2">
-                  <AcademicCapIcon />
-                  <Text className="ml-1 text-neutral-400">Movie name</Text>
+                  <Image
+                    source={{ uri: image342(item.poster_path) }}
+                    style={{ width: width * 0.44, height: height * 0.3 }}
+                  />
+                  <Text className="ml-1 text-neutral-400">{item.title}</Text>
                 </View>
               </TouchableWithoutFeedback>
             ))}

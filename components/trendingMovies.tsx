@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { image500 } from 'api/tmdb';
 import { height, width } from 'constants/constants';
 import { Movie } from 'models/movie';
+import { NavigationProps } from 'navigation';
 import { View, Text, Image, TouchableWithoutFeedback } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 
@@ -10,7 +11,7 @@ type props = {
 };
 
 export function TrendingMovies({ data }: props) {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProps>();
   const handleClick = (item: Movie) => {
     navigation.navigate('Movie', item);
   };

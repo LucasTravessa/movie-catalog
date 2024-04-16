@@ -16,6 +16,7 @@
     "expo": "~50.0.7",
     "expo-linear-gradient": "~12.7.2",
     "expo-status-bar": "~1.11.1",
+    "lodash": "^4.17.21",
     "nativewind": "^4.0.1",
     "react": "18.2.0",
     "react-native": "0.73.6",
@@ -29,6 +30,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@types/lodash": "^4.17.0",
     "@types/react": "~18.2.14",
     "@types/react-native-snap-carousel": "^3.8.11",
     "@typescript-eslint/eslint-plugin": "^6.7.2",
