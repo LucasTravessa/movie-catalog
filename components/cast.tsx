@@ -2,6 +2,7 @@ import { image185 } from 'api/tmdb';
 import { Cast } from 'models/movie-credits';
 import { NavigationProps } from 'navigation';
 import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { UserCircleIcon } from 'react-native-heroicons/outline';
 
 type props = {
   navigation: NavigationProps;
@@ -22,10 +23,14 @@ export default function CastList({ navigation, cast }: props) {
             className="mr-4 items-center"
             onPress={() => navigation.navigate('Person', person)}>
             <View className="h-20 w-20 items-center overflow-hidden rounded-full border-neutral-500">
-              <Image
-                source={{ uri: image185(person.profile_path || '') }}
-                className="ronded-2xl h-24 w-20"
-              />
+              {person.profile_path === null ? (
+                <UserCircleIcon size="76" strokeWidth={1} color="white" />
+              ) : (
+                <Image
+                  source={{ uri: image185(person.profile_path) }}
+                  className="ronded-2xl h-24 w-20"
+                />
+              )}
             </View>
             <Text className="mt-1 text-xs text-white">{person.character}</Text>
             <Text className="mt-1 text-xs text-white">{person.original_name}</Text>

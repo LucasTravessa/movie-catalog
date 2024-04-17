@@ -2,7 +2,7 @@ export type Movie = {
   id: number;
   title: string;
   original_title: string;
-  poster_path: string;
+  poster_path: string | null;
   adult: boolean;
   overview: string;
   release_date: Date;

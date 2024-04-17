@@ -66,10 +66,19 @@ export function PersonScreen() {
               shadowOpacity: 1,
             }}>
             <View className="boder-neutral-500 h-72 w-72 items-center overflow-hidden rounded-full">
-              <Image
-                source={{ uri: image342(person?.profile_path || '') }}
-                style={{ height: height * 0.43, width: width * 0.74 }}
-              />
+              {person?.profile_path ? (
+                <Image
+                  source={{
+                    uri: image342(person.profile_path),
+                  }}
+                  style={{ height: height * 0.43, width: width * 0.74 }}
+                />
+              ) : (
+                <Image
+                  source={require('../assets/no-image.png')}
+                  style={{ height: height * 0.43, width: width * 0.74 }}
+                />
+              )}
             </View>
           </View>
           <View className="mt-6">
@@ -85,7 +94,9 @@ export function PersonScreen() {
             </View>
             <View className="items-center border-r-2 border-r-neutral-400 px-2">
               <Text className="font-semibold text-white">Birthday</Text>
-              <Text className="text-sm text-neutral-300">{person?.birthday.toString()}</Text>
+              <Text className="text-sm text-neutral-300">
+                {person?.birthday ? person.birthday.toString() : 'MM-DD-YYY'}
+              </Text>
             </View>
             <View className="items-center border-r-2 border-r-neutral-400 px-2">
               <Text className="font-semibold text-white">Known for</Text>

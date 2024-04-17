@@ -62,10 +62,20 @@ export function MovieScreen() {
           <Loading />
         ) : (
           <View>
-            <Image
-              source={{ uri: image500(movie?.poster_path || '') }}
-              style={{ height: height * 0.4, width }}
-            />
+            {movie?.poster_path ? (
+              <Image
+                source={{
+                  uri: image500(movie.poster_path),
+                }}
+                style={{ height: height * 0.4, width }}
+              />
+            ) : (
+              <Image
+                source={require('../assets/no-image.png')}
+                style={{ height: height * 0.4, width }}
+              />
+            )}
+
             <LinearGradient
               colors={['transparent', 'rgba(23,23,23,0.8)', 'rgba(23,23,23,1)']}
               style={{ width, height: height * 0.4 }}

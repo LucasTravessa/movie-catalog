@@ -68,10 +68,19 @@ export default function SearchScreen() {
             {results.map((item, i) => (
               <TouchableWithoutFeedback key={i} onPress={() => navigation.navigate('Movie', item)}>
                 <View className="mb-4 space-y-2">
-                  <Image
-                    source={{ uri: image342(item.poster_path) }}
-                    style={{ width: width * 0.44, height: height * 0.3 }}
-                  />
+                  {item.poster_path ? (
+                    <Image
+                      source={{
+                        uri: image342(item.poster_path),
+                      }}
+                      style={{ width: width * 0.44, height: height * 0.3 }}
+                    />
+                  ) : (
+                    <Image
+                      source={require('../assets/no-image.png')}
+                      style={{ height: height * 0.44, width: width * 0.33 }}
+                    />
+                  )}
                   <Text className="ml-1 text-neutral-400">{item.title}</Text>
                 </View>
               </TouchableWithoutFeedback>
@@ -80,7 +89,10 @@ export default function SearchScreen() {
         </ScrollView>
       ) : (
         <View className="flex-row justify-center">
-          <Text>Not found</Text>
+          <Image
+            source={require('../assets/couch.png')}
+            style={{ width: width * 0.84, height: height * 0.3 }}
+          />
         </View>
       )}
     </SafeAreaView>

@@ -40,11 +40,22 @@ export function MovieList({ title, data, hideSeeAll = false }: props) {
         {data?.map((item: Movie, index: number) => (
           <TouchableWithoutFeedback key={index} onPress={() => navigation.push('Movie', item)}>
             <View className="mr-4 space-y-1">
-              <Image
-                source={{ uri: image185(item.poster_path) }}
-                className="rounded-3xl"
-                style={{ width: width * 0.33, height: height * 0.22 }}
-              />
+              {item.poster_path ? (
+                <Image
+                  source={{
+                    uri: image185(item.poster_path),
+                  }}
+                  className="rounded-3xl"
+                  style={{ width: width * 0.33, height: height * 0.22 }}
+                />
+              ) : (
+                <Image
+                  source={require('../assets/no-image.png')}
+                  className="rounded-3xl"
+                  style={{ width: width * 0.33, height: height * 0.22 }}
+                />
+              )}
+
               <Text className="ml-1 max-w-32 text-neutral-300" key={index}>
                 {item.title}
               </Text>
