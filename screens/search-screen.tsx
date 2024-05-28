@@ -91,7 +91,7 @@ export default function SearchScreen() {
         <View className="flex-row justify-center">
           <Image
             source={require('../assets/couch.png')}
-            style={{ width: width * 0.84, height: height * 0.3 }}
+            style={{ width: width * 0.84, height: height * 0.3, objectFit: 'contain' }}
           />
         </View>
       )}

@@ -47,7 +47,7 @@ export function HomeScreen() {
     <View className="flex-1 bg-neutral-800">
       <SafeAreaView className={ios ? '-mb-2' : 'mb-3 mt-8'}>
         <StatusBar style="light" />
-        <View className="mx-4 flex-row items-center justify-between">
+        <View className="mx-4 mb-5 flex-row items-center justify-between">
           <Bars3CenterLeftIcon size="30" strokeWidth={2} color="white" />
           <Text className="text-3xl font-bold text-white">
             <Text style={styles.text}>M</Text>ovies
