@@ -78,7 +78,7 @@ export function MovieScreen() {
 
             <LinearGradient
               colors={['transparent', 'rgba(23,23,23,0.8)', 'rgba(23,23,23,1)']}
-              style={{ width, height: height * 0.4 }}
+              style={{ width, height: height * 0.1 }}
               start={{ x: 0.5, y: 0 }}
               end={{ x: 0.5, y: 1 }}
               className="absolute bottom-0"
